@@ -6,7 +6,9 @@ using Azure.ResourceManager.ApiManagement.Models;
 using Microsoft.Extensions.Configuration;
 
 var configManager = new ConfigurationManager()
-    .AddUserSecrets<Program>();
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddUserSecrets<Program>()
+    .AddJsonFile("appsettings.json");
 
 var configRoot = configManager
     .Build();
@@ -14,9 +16,11 @@ var configRoot = configManager
 // Can authenticate with az login
 var armClient = new ArmClient(new DefaultAzureCredential());
 
-var subscriptionId = configRoot["AzureSubscriptionId"];
-var apimResourceIdString = $"/subscriptions/{subscriptionId}/resourceGroups/apim-playground/providers/Microsoft.ApiManagement/service/apim-playground-hunsberger";
-var resourceId = new ResourceIdentifier(apimResourceIdString);
+var azureSettings = new AzureSettings();
+configRoot.Bind("AzureSettings", azureSettings);
+
+var apimResourceIdBase = $"/subscriptions/{azureSettings.AzureSubscriptionId}/resourceGroups/{azureSettings.ApimResourceGroupName}/providers/Microsoft.ApiManagement/service/{azureSettings.ApimServiceName}";
+var resourceId = new ResourceIdentifier(apimResourceIdBase);
 
 var serviceResource = armClient.GetApiManagementServiceResource(resourceId);
 
