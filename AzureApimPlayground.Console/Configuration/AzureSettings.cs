@@ -1,4 +1,6 @@
-﻿public class AzureSettings
+﻿namespace AzureApimPlayground.Console.Configuration;
+
+public class AzureSettings
 {
     public string AzureSubscriptionId { get; set; }
     public string ApimResourceGroupName { get; set; }

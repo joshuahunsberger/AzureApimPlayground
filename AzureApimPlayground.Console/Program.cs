@@ -3,7 +3,7 @@ using Azure.Identity;
 using Azure.ResourceManager;
 using Azure.ResourceManager.ApiManagement;
 using Azure.ResourceManager.ApiManagement.Models;
-using AzureApimPlayground.Console;
+using AzureApimPlayground.Console.Configuration;
 using Microsoft.Extensions.Configuration;
 
 var configManager = new ConfigurationManager()
