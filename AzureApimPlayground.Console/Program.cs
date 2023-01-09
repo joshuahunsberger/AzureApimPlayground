@@ -7,8 +7,8 @@ using Microsoft.Extensions.Configuration;
 
 var configManager = new ConfigurationManager()
     .SetBasePath(Directory.GetCurrentDirectory())
-    .AddUserSecrets<Program>()
-    .AddJsonFile("appsettings.json");
+    .AddJsonFile("appsettings.json")
+    .AddUserSecrets<Program>();
 
 var configRoot = configManager
     .Build();
