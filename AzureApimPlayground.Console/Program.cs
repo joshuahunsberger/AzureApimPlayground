@@ -3,6 +3,7 @@ using Azure.Identity;
 using Azure.ResourceManager;
 using Azure.ResourceManager.ApiManagement;
 using Azure.ResourceManager.ApiManagement.Models;
+using AzureApimPlayground.Console;
 using Microsoft.Extensions.Configuration;
 
 var configManager = new ConfigurationManager()
@@ -25,6 +26,8 @@ var serviceResource = armClient.GetApiManagementServiceResource(resourceId);
 
 var userCollection = serviceResource.GetApiManagementUsers();
 
+var newUserSettings = new NewUserSettings();
+configRoot.Bind("NewUserSettings", newUserSettings);
 var newUserEmail = configRoot["NewUserEmail"];
 var existingUserResults = userCollection.GetAll($"email eq '{newUserEmail}'", top: 1);
 var user = existingUserResults.FirstOrDefault();
@@ -33,9 +36,10 @@ if (user == null)
 {
     var createContent = new ApiManagementUserCreateOrUpdateContent
     {
-        Email = newUserEmail,
-        FirstName = "Joshua",
-        LastName = "Hunsberger",
+        Email = newUserSettings.Email,
+        FirstName = newUserSettings.FirstName,
+        LastName = newUserSettings.LastName,
+        Note = "Created by .NET SDK"
     };
 
     var userOperation = await userCollection.CreateOrUpdateAsync(Azure.WaitUntil.Completed, Guid.NewGuid().ToString(), createContent, false);
