@@ -28,8 +28,8 @@ var userCollection = serviceResource.GetApiManagementUsers();
 
 var newUserSettings = new NewUserSettings();
 configRoot.Bind("NewUserSettings", newUserSettings);
-var newUserEmail = configRoot["NewUserEmail"];
-var existingUserResults = userCollection.GetAll($"email eq '{newUserEmail}'", top: 1);
+
+var existingUserResults = userCollection.GetAll($"email eq '{newUserSettings.Email}'", top: 1);
 var user = existingUserResults.FirstOrDefault();
 
 if (user == null)
