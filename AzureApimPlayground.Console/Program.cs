@@ -42,7 +42,7 @@ if (user == null)
         Note = "Created by .NET SDK"
     };
 
-    var userOperation = await userCollection.CreateOrUpdateAsync(Azure.WaitUntil.Completed, Guid.NewGuid().ToString(), createContent, false);
+    var userOperation = await userCollection.CreateOrUpdateAsync(Azure.WaitUntil.Completed, Guid.NewGuid().ToString(), createContent, notify: false);
     user = userOperation.Value;
 }
 
@@ -73,7 +73,7 @@ if (existingSubscription == null)
         State = SubscriptionState.Active,
         DisplayName = ".NET SDK Created Product Demo Conference API subscription"
     };
-    var subscription = await subscriptionCollection.CreateOrUpdateAsync(Azure.WaitUntil.Completed, Guid.NewGuid().ToString(), subscriptionCreateContent, true);
+    var subscription = await subscriptionCollection.CreateOrUpdateAsync(Azure.WaitUntil.Completed, Guid.NewGuid().ToString(), subscriptionCreateContent, notify: false);
     Console.WriteLine($"Keys:\n\t{subscription.Value.Data.PrimaryKey}\n\t{subscription.Value.Data.SecondaryKey}");
 }
 else
